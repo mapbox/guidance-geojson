@@ -1,6 +1,6 @@
 {
   "name": "guidance-geojson",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {
     "minimist": "1.2.x",
     "polyline": "0.2.x",
