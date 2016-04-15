@@ -1,0 +1,185 @@
+{
+  "origin": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -122.41515350341797,
+        37.77467346191406
+      ]
+    },
+    "properties": {
+      "name": "10th Street"
+    }
+  },
+  "destination": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -122.41184997558594,
+        37.70604705810547
+      ]
+    },
+    "properties": {
+      "name": "Geneva Avenue"
+    }
+  },
+  "waypoints": [],
+  "routes": [
+    {
+      "distance": 9190,
+      "duration": 534,
+      "summary": "James Lick Freeway (US 101) - Bayshore Boulevard",
+      "geometry": "_tq`gAdbsnhFvJsMpZqa@d]yd@fm@ay@tm@qy@l]ce@`R}V~y@cfAd@yLdBsPnAcHhBqHvBcHbCmGvCiGrN}VnUya@`KqPvYcc@b_@}j@~GoIxD{D~EkDbFiC|FaCdD{@fDu@tHsAlBH|c@}CxLuA`XsExqA_GxJ[~HAvKD`K^bKt@vJhAvJ~AbKzB`JjCnJdDzIxD~IlEvInE|\\|QjHlDfIlDpHlC`IzBfI~A~HjA`Ir@bI\\pIBlIWrIs@dJqA~IgBhJqCfIaDxIoEzH{EjIgGdImH`H{HdHcJpGaJhGmJrN_UfF{HbGoIlF{GxFmGzFiF`GaFvGoE~G{DvIwDjIuChIwB~I_BhJiAbK{@dKm@vJe@rbCqK~Ni@pO]tNKdN^jOp@rNlAxOjBvLnBnL`C`nAxWncBp^|nAbX~_Bn]rNdDpOrEdN~EjMbG`NhH`MfIfMbJz_Apu@xFhE`FvD|MxInN`IfN`HnN~FhPjFxMlDdQlDfOjClPnBlPtAnUpA`OZlOGrOWtOm@tO_AhMwAbOyBtOoCnOkDlNuDrMiE`MoE|MqFlOkHvJiEdWgM|w@{_@nYwNdu@g_@|j@eZxQ{IhRsIxVuKrQmHfTqIn^cNfKyDxYeKxVqIzVgHj`Ae[xHcCvdAg]|hAi[~t@qSxb@cMfYyId{Aie@n^yJhf@yLdz@_HzRqBdQaBtQiAhUw@zG_@xFg@|Fo@xFiAhSwErH{@zKwBdy@{NrVwDjj@}F~F[`EBhG`@hEn@jD^dVpHbEvA|DlBbDbC`EdDfFtElDnDrEdFbQfSfc@ra@dHfGnEdEnDlEjD`GhCrGbBxGvLzs@|A~IzA`HvB~GfCdG|CnFvDtEjE`Ep_@|V|C~BxB~AhRfNlRpLfDvBzCvAb^jUxFfD|F|CpMvE|XbJhCn@hCl@`d@bOff@nQzAj@`Q~FfqAnc@bf@~Nz\\hKdGrBeAzFuPt~@i@~DoCpZuDpSsd@peCkDbRgGtS",
+      "steps": [
+        {
+          "maneuver": {
+            "type": "depart",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.415155,
+                37.774672
+              ]
+            },
+            "instruction": "Head southeast on 10th Street"
+          },
+          "distance": 677,
+          "duration": 60,
+          "way_name": "10th Street",
+          "direction": "SE",
+          "heading": 135,
+          "mode": "driving"
+        },
+        {
+          "maneuver": {
+            "type": "bear left",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.409766,
+                37.770337
+              ]
+            },
+            "instruction": "Bear left"
+          },
+          "distance": 532,
+          "duration": 41,
+          "way_name": "",
+          "direction": "E",
+          "heading": 94,
+          "mode": "driving"
+        },
+        {
+          "maneuver": {
+            "type": "continue",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.405472,
+                37.76726
+              ]
+            },
+            "instruction": "Continue on US 101"
+          },
+          "distance": 136,
+          "duration": 6,
+          "way_name": "US 101",
+          "direction": "S",
+          "heading": 174,
+          "mode": "driving"
+        },
+        {
+          "maneuver": {
+            "type": "continue",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.405244,
+                37.766047
+              ]
+            },
+            "instruction": "Continue on James Lick Freeway (US 101)"
+          },
+          "distance": 5340,
+          "duration": 241,
+          "way_name": "James Lick Freeway (US 101)",
+          "direction": "S",
+          "heading": 176,
+          "mode": "driving"
+        },
+        {
+          "maneuver": {
+            "type": "continue",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.400278,
+                37.720955
+              ]
+            },
+            "instruction": "Continue"
+          },
+          "distance": 343,
+          "duration": 26,
+          "way_name": "",
+          "direction": "S",
+          "heading": 173,
+          "mode": "driving"
+        },
+        {
+          "maneuver": {
+            "type": "continue",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.399758,
+                37.717899
+              ]
+            },
+            "instruction": "Continue on Bayshore Boulevard"
+          },
+          "distance": 1713,
+          "duration": 136,
+          "way_name": "Bayshore Boulevard",
+          "direction": "S",
+          "heading": 171,
+          "mode": "driving"
+        },
+        {
+          "maneuver": {
+            "type": "turn right",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.40705,
+                37.704725
+              ]
+            },
+            "instruction": "Turn right onto Geneva Avenue"
+          },
+          "distance": 449,
+          "duration": 26,
+          "way_name": "Geneva Avenue",
+          "direction": "W",
+          "heading": 290,
+          "mode": "driving"
+        },
+        {
+          "maneuver": {
+            "type": "arrive",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.411851,
+                37.706047
+              ]
+            },
+            "instruction": "You have arrived at your destination"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "guidance-geojson",
+  "version": "0.0.0",
+  "dependencies": {
+    "minimist": "1.2.x",
+    "polyline": "0.2.x",
+    "tape": "4.5.x",
+    "turf-along": "1.0.x",
+    "turf-bearing": "1.0.x",
+    "turf-line-distance": "1.0.x",
+    "turf-line-slice": "^1.3.4"
+  },
+  "bin": {
+    "guidance-geojson": "bin/guidance-geojson.js"
+  },
+  "scripts": {
+    "test": "tape test/*.test.js"
+  }
+}
