@@ -35,7 +35,7 @@ tape('stylePrep', function(assert) {
     ], 'before: has correct layer IDs');
     assert.deepEqual(style.metadata.guidanceRoute, undefined, 'before: no guidanceRoute metadata');
 
-    assert.deepEqual(style, stylePrep(style), 'after: returns style');
+    style = stylePrep(style);
     assert.deepEqual(style.layers.length, 19, 'after: has 19 layers');
     assert.deepEqual(style.layers.map(function(l) { return l.id; }), [
         'background',
