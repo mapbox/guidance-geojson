@@ -68,7 +68,7 @@ tape('stylePrep', function(assert) {
     assert.end();
 });
 
-tape('styleRoute', function(assert) {
+tape('styleRoute-errors', function(assert) {
     assert.throws(function() {
         styleRoute({}, {getStyle:function() { return {}; }}, {});
     }, /metadata.guidanceRoute not found/, 'throws without metadata');
@@ -77,10 +77,71 @@ tape('styleRoute', function(assert) {
         styleRoute({}, {getStyle:function() { return { metadata:{} }; }}, {});
     }, /metadata.guidanceRoute not found/, 'throws without metadata.guidanceRoute');
 
-    var route = {};
+    assert.end();
+});
+
+tape('styleRoute-geojson', function(assert) {
+    var route = {
+        type: 'FeatureCollection',
+        features: []
+    };
     var mapboxgl = {};
     mapboxgl.GeoJSONSource = function(options) {
-        assert.deepEqual(options.data, route, 'route data provided to GeoJSONSource constructor');
+        assert.equal(options.data.type, 'FeatureCollection', 'geojson data provided to GeoJSONSource constructor');
+    };
+    var map = {};
+    map.getStyle = function() {
+        return {
+            metadata: {
+                guidanceRoute: [
+                    {
+                        layer: {
+                            id: 'route',
+                            source:'test',
+                            'source-layer':'data'
+                        },
+                        before: 'road'
+                    },
+                    {
+                        layer: {
+                            id: 'route-label',
+                            source:'test',
+                            'source-layer':'data'
+                        },
+                        before: 'road-label'
+                    }
+                ]
+            }
+        };
+    };
+    map.addSource = function(id, source) {
+        assert.equal(id, 'route-guidance', 'addSource: adds source with id=route-guidance');
+        assert.equal(source instanceof mapboxgl.GeoJSONSource, true, 'addSource: adds GeoJSONSource');
+    };
+    map.addLayer = function(layer, before) {
+        if (layer.id === 'route') {
+            assert.equal(layer.source, 'route-guidance', 'layer.source = route-guidance');
+            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
+            assert.equal(before, 'road', 'layer is added before id:road');
+        } else if (layer.id === 'route-label') {
+            assert.equal(layer.source, 'route-guidance', 'layer.source = route-guidance');
+            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
+            assert.equal(before, 'road-label', 'layer is added before id:road-label');
+        } else {
+            assert.fail('unknown layer ' + layer.id);
+        }
+    };
+
+    styleRoute(mapboxgl, map, route);
+
+    assert.end();
+});
+
+tape('styleRoute-route', function(assert) {
+    var route = require('./fixtures/v4-sf.json');
+    var mapboxgl = {};
+    mapboxgl.GeoJSONSource = function(options) {
+        assert.equal(options.data.type, 'FeatureCollection', 'geojson data provided to GeoJSONSource constructor');
     };
     var map = {};
     map.getStyle = function() {

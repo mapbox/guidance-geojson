@@ -264,11 +264,12 @@ function stylePrep(style, prefix) {
  *
  * @param {object} mapboxgl - A reference to the Mapbox GL library.
  * @param {object} map - A Mapbox GL map object.
- * @param {object} route - Route GeoJSON from guidance-geojson.
+ * @param {object} route - A Mapbox Directions response (will be converted automatically) or guidance GeoJSON for such a route.
  */
 function styleRoute(mapboxgl, map, route) {
     var style = map.getStyle();
     if (!style.metadata || !style.metadata.guidanceRoute) throw new Error('metadata.guidanceRoute not found. Did you run stylePrep() on your style object?');
+    if (route.type !== 'FeatureCollection') route = guidance(route);
 
     map.addSource('route-guidance', new mapboxgl.GeoJSONSource({ data: route }));
 
