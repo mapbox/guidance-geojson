@@ -4,7 +4,15 @@ var lineDistance = require('turf-line-distance');
 var turfBearing = require('turf-bearing');
 
 module.exports = guidance;
+module.exports.stylePrep = stylePrep;
+module.exports.styleRoute = styleRoute;
 
+/**
+ * Convert a Mapbox Directions response to a GeoJSON FeatureCollection that can be styled with Mapbox Studio.
+ *
+ * @return {object} GeoJSON
+ * @param {object} response - A Mapbox Directions response object.
+ */
 function guidance(response) {
     if (response.code) {
         return v5(response);
@@ -215,3 +223,59 @@ function v5(response) {
     geojson.features = segments.concat(maneuvers).concat(labels).concat(waypoints);
     return geojson;
 }
+
+/**
+ * Prepare a Mapbox GL style for loading into Mapbox GL prior to having route data from guidance-geojson added. Useful for initializing a map prior to having a dynamic route added to it.
+ *
+ * @return {object} A Mapbox GL style object
+ * @param {object} style - A Mapbox GL style object.
+ * @param {string} [prefix=route] - Layer IDs matching this string prefix will be snagged for styling route data. Defaults to 'route'.
+ */
+function stylePrep(style, prefix) {
+    // Clone style object
+    style = JSON.parse(JSON.stringify(style));
+
+    var routeLayers = [];
+    prefix = prefix || 'route';
+
+    // Stash layers and source ID to use on style metadata object
+    style.metadata = style.metadata || {};
+    style.metadata['guidanceRoute'] = routeLayers;
+
+    // Filter layers to those not styling route data
+    var filtered = [];
+    style.layers.forEach(function(layer, i) {
+        if (layer.id.indexOf(prefix) === 0) {
+            routeLayers.push({
+                layer: layer,
+                before: style.layers[i-1] ? style.layers[i-1].id : undefined
+            });
+        } else {
+            filtered.push(layer);
+        }
+    });
+    style.layers = filtered;
+
+    return style;
+}
+
+/**
+ * Add guidance geojson from a route to a map for styling. The map style must already be prepared via the `stylePrep()` function.
+ *
+ * @param {object} mapboxgl - A reference to the Mapbox GL library.
+ * @param {object} map - A Mapbox GL map object.
+ * @param {object} route - Route GeoJSON from guidance-geojson.
+ */
+function styleRoute(mapboxgl, map, route) {
+    var style = map.getStyle();
+    if (!style.metadata || !style.metadata.guidanceRoute) throw new Error('metadata.guidanceRoute not found. Did you run stylePrep() on your style object?');
+
+    map.addSource('route-guidance', new mapboxgl.GeoJSONSource({ data: route }));
+
+    style.metadata.guidanceRoute.forEach(function(item) {
+        item.layer['source'] = 'route-guidance';
+        delete item.layer['source-layer'];
+        map.addLayer(item.layer, item.before)
+    });
+}
+
