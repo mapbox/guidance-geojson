@@ -273,7 +273,8 @@ function styleRoute(mapboxgl, map, route) {
 
     map.addSource('route-guidance', new mapboxgl.GeoJSONSource({ data: route }));
 
-    style.metadata.guidanceRoute.forEach(function(item) {
+    var toAdd = JSON.parse(JSON.stringify(style.metadata.guidanceRoute)).reverse();
+    toAdd.forEach(function(item) {
         if (!item.layer.ref) {
             item.layer['source'] = 'route-guidance';
             delete item.layer['source-layer'];
