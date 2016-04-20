@@ -59,11 +59,11 @@ tape('stylePrep', function(assert) {
         'motorway-shields-interstate',
     ], 'after: has correct layer IDs');
     assert.deepEqual(style.metadata.guidanceRoute.map(function(l) { return l.layer.id + '@' + l.before; }), [
-        'route-case@road-major',
-        'route@route-case',
-        'route-spacer@road-label-major',
-        'route-maneuver-left@motorway-shields-interstate',
-        'route-maneuver-right@route-maneuver-left'
+        'route-case@route',
+        'route@road-label-extra',
+        'route-spacer@motorway-shields-other',
+        'route-maneuver-left@route-maneuver-right',
+        'route-maneuver-right@undefined'
     ], 'after: guidanceRoute has correct layer IDs');
     assert.end();
 });

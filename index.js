@@ -248,7 +248,7 @@ function stylePrep(style, prefix) {
         if (layer.id.indexOf(prefix) === 0) {
             routeLayers.push({
                 layer: layer,
-                before: style.layers[i-1] ? style.layers[i-1].id : undefined
+                before: style.layers[i+1] ? style.layers[i+1].id : undefined
             });
         } else {
             filtered.push(layer);
