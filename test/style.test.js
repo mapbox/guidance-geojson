@@ -98,14 +98,23 @@ tape('styleRoute-geojson', function(assert) {
                         layer: {
                             id: 'route',
                             source:'test',
-                            'source-layer':'data'
+                            'source-layer':'data',
+                            layout: {
+                                'line-join': 'miter'
+                            },
+                            paint: {
+                                'line-color': '#fff'
+                            }
                         },
                         before: 'road'
                     },
                     {
                         layer: {
-                            id: 'route-label',
-                            ref: 'route'
+                            id: 'route-case',
+                            ref: 'route',
+                            paint: {
+                                'line-color': '#000'
+                            }
                         },
                         before: 'road-label'
                     }
@@ -117,21 +126,31 @@ tape('styleRoute-geojson', function(assert) {
         assert.equal(id, 'route-guidance', 'addSource: adds source with id=route-guidance');
         assert.equal(source instanceof mapboxgl.GeoJSONSource, true, 'addSource: adds GeoJSONSource');
     };
+
+    var added = [];
     map.addLayer = function(layer, before) {
-        if (layer.id === 'route') {
-            assert.equal(layer.source, 'route-guidance', 'layer.source = route-guidance');
-            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
-            assert.equal(before, 'road', 'layer is added before id:road');
-        } else if (layer.id === 'route-label') {
-            assert.equal(layer.source, undefined, 'layer.source is undefined when ref is set');
-            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is undefined when ref is set');
-            assert.equal(before, 'road-label', 'layer is added before id:road-label');
-        } else {
-            assert.fail('unknown layer ' + layer.id);
-        }
+        added.push({layer:layer, before:before});
     };
 
     styleRoute(mapboxgl, map, route);
+
+    assert.equal(added.length, 2, 'adds 2 layers');
+
+    assert.deepEqual(added[0].layer.id + '@' + added[0].before, 'route-case@road-label', 'adds route-case before road-label');
+    assert.deepEqual(added[0].layer, {
+        id: 'route-case',
+        paint: { 'line-color': '#000' },
+        layout: { 'line-join': 'miter' },
+        source: 'route-guidance'
+    }, 'adds route-case layer with ref resolved');
+
+    assert.deepEqual(added[1].layer.id + '@' + added[1].before, 'route@road', 'adds route before road');
+    assert.deepEqual(added[1].layer, {
+        id: 'route',
+        paint: { 'line-color': '#fff' },
+        layout: { 'line-join': 'miter' },
+        source: 'route-guidance'
+    }, 'adds route layer');
 
     assert.end();
 });
@@ -151,14 +170,23 @@ tape('styleRoute-route', function(assert) {
                         layer: {
                             id: 'route',
                             source:'test',
-                            'source-layer':'data'
+                            'source-layer':'data',
+                            layout: {
+                                'line-join': 'miter'
+                            },
+                            paint: {
+                                'line-color': '#fff'
+                            }
                         },
                         before: 'road'
                     },
                     {
                         layer: {
-                            id: 'route-label',
-                            ref: 'route'
+                            id: 'route-case',
+                            ref: 'route',
+                            paint: {
+                                'line-color': '#000'
+                            }
                         },
                         before: 'road-label'
                     }
@@ -170,21 +198,31 @@ tape('styleRoute-route', function(assert) {
         assert.equal(id, 'route-guidance', 'addSource: adds source with id=route-guidance');
         assert.equal(source instanceof mapboxgl.GeoJSONSource, true, 'addSource: adds GeoJSONSource');
     };
+
+    var added = [];
     map.addLayer = function(layer, before) {
-        if (layer.id === 'route') {
-            assert.equal(layer.source, 'route-guidance', 'layer.source = route-guidance');
-            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
-            assert.equal(before, 'road', 'layer is added before id:road');
-        } else if (layer.id === 'route-label') {
-            assert.equal(layer.source, undefined, 'layer.source is undefined when ref is set');
-            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is undefined when ref is set');
-            assert.equal(before, 'road-label', 'layer is added before id:road-label');
-        } else {
-            assert.fail('unknown layer ' + layer.id);
-        }
+        added.push({layer:layer, before:before});
     };
 
     styleRoute(mapboxgl, map, route);
+
+    assert.equal(added.length, 2, 'adds 2 layers');
+
+    assert.deepEqual(added[0].layer.id + '@' + added[0].before, 'route-case@road-label', 'adds route-case before road-label');
+    assert.deepEqual(added[0].layer, {
+        id: 'route-case',
+        paint: { 'line-color': '#000' },
+        layout: { 'line-join': 'miter' },
+        source: 'route-guidance'
+    }, 'adds route-case layer with ref resolved');
+
+    assert.deepEqual(added[1].layer.id + '@' + added[1].before, 'route@road', 'adds route before road');
+    assert.deepEqual(added[1].layer, {
+        id: 'route',
+        paint: { 'line-color': '#fff' },
+        layout: { 'line-join': 'miter' },
+        source: 'route-guidance'
+    }, 'adds route layer');
 
     assert.end();
 });
