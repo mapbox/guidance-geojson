@@ -1,3 +1,7 @@
+## v0.2.1
+
+- Fixes for `styleRoute()` when working with layers with `ref` properties.
+
 ## v0.2.0
 
 - Adds `stylePrep()` and `styleRoute()` functions for integrating guidance GeoJSON into a style dynamically.
