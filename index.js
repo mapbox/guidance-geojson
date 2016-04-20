@@ -248,7 +248,7 @@ function stylePrep(style, prefix) {
         if (layer.id.indexOf(prefix) === 0) {
             routeLayers.push({
                 layer: layer,
-                before: style.layers[i-1] ? style.layers[i-1].id : undefined
+                before: style.layers[i+1] ? style.layers[i+1].id : undefined
             });
         } else {
             filtered.push(layer);
@@ -273,9 +273,24 @@ function styleRoute(mapboxgl, map, route) {
 
     map.addSource('route-guidance', new mapboxgl.GeoJSONSource({ data: route }));
 
-    style.metadata.guidanceRoute.forEach(function(item) {
-        item.layer['source'] = 'route-guidance';
-        delete item.layer['source-layer'];
+    var toAdd = JSON.parse(JSON.stringify(style.metadata.guidanceRoute)).reverse();
+    var byId = toAdd.reduce(function(memo, item) {
+        memo[item.layer.id] = item.layer;
+        return memo;
+    }, {});
+    toAdd.forEach(function(item) {
+        if (item.layer.ref && byId[item.layer.ref]) {
+            var resolved = JSON.parse(JSON.stringify(byId[item.layer.ref]));
+            resolved.id = item.layer.id;
+            for (var k in resolved) if (/^paint/.test(k)) delete resolved[k];
+            for (var k in item.layer) if (/^paint/.test(k)) resolved[k] = item.layer[k];
+            item.layer = resolved;
+            item.layer['source'] = 'route-guidance';
+            delete item.layer['source-layer'];
+        } else if (!item.layer.ref) {
+            item.layer['source'] = 'route-guidance';
+            delete item.layer['source-layer'];
+        }
         map.addLayer(item.layer, item.before)
     });
 }
