@@ -274,8 +274,10 @@ function styleRoute(mapboxgl, map, route) {
     map.addSource('route-guidance', new mapboxgl.GeoJSONSource({ data: route }));
 
     style.metadata.guidanceRoute.forEach(function(item) {
-        item.layer['source'] = 'route-guidance';
-        delete item.layer['source-layer'];
+        if (!item.layer.ref) {
+            item.layer['source'] = 'route-guidance';
+            delete item.layer['source-layer'];
+        }
         map.addLayer(item.layer, item.before)
     });
 }

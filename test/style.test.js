@@ -105,8 +105,7 @@ tape('styleRoute-geojson', function(assert) {
                     {
                         layer: {
                             id: 'route-label',
-                            source:'test',
-                            'source-layer':'data'
+                            ref: 'route'
                         },
                         before: 'road-label'
                     }
@@ -124,8 +123,8 @@ tape('styleRoute-geojson', function(assert) {
             assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
             assert.equal(before, 'road', 'layer is added before id:road');
         } else if (layer.id === 'route-label') {
-            assert.equal(layer.source, 'route-guidance', 'layer.source = route-guidance');
-            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
+            assert.equal(layer.source, undefined, 'layer.source is undefined when ref is set');
+            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is undefined when ref is set');
             assert.equal(before, 'road-label', 'layer is added before id:road-label');
         } else {
             assert.fail('unknown layer ' + layer.id);
@@ -159,8 +158,7 @@ tape('styleRoute-route', function(assert) {
                     {
                         layer: {
                             id: 'route-label',
-                            source:'test',
-                            'source-layer':'data'
+                            ref: 'route'
                         },
                         before: 'road-label'
                     }
@@ -178,8 +176,8 @@ tape('styleRoute-route', function(assert) {
             assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
             assert.equal(before, 'road', 'layer is added before id:road');
         } else if (layer.id === 'route-label') {
-            assert.equal(layer.source, 'route-guidance', 'layer.source = route-guidance');
-            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is unset');
+            assert.equal(layer.source, undefined, 'layer.source is undefined when ref is set');
+            assert.equal(layer['source-layer'], undefined, 'layer.source-layer is undefined when ref is set');
             assert.equal(before, 'road-label', 'layer is added before id:road-label');
         } else {
             assert.fail('unknown layer ' + layer.id);
