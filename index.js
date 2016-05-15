@@ -13,11 +13,11 @@ module.exports.styleRoute = styleRoute;
  * @return {object} GeoJSON
  * @param {object} response - A Mapbox Directions response object.
  */
-function guidance(response) {
+function guidance(response, options) {
     if (response.code) {
-        return v5(response);
+        return v5(response, options);
     } else {
-        return v4(response);
+        return v4(response, options);
     }
 }
 
@@ -26,7 +26,10 @@ function geom(geometry, precision) {
     return typeof geometry === 'string' ? polyline.toGeoJSON(geometry, precision) : JSON.parse(JSON.stringify(geometry));
 }
 
-function v4(response) {
+function v4(response, options) {
+    options = options || {};
+    options.offset = options.offset || 0;
+
     var geojson = { type:'FeatureCollection', features:[] };
     if (!response.routes.length) return geojson;
 
@@ -75,29 +78,58 @@ function v4(response) {
 
     // Generate maneuver lines
     var last;
-    response.routes[0].steps.forEach(function(step) {
-        // Only generate maneuver lines for non-straight/slight modifiers
+    // Only generate maneuver lines for non-straight/slight modifiers
+    var steps = response.routes[0].steps.filter(function(step) {
         if (step.way_name && last && last.way_name !== step.way_name) {
-            var bearing = null;
-            for (var i = 0; i < segments[0].geometry.coordinates.length; i++) {
-                var prev = segments[0].geometry.coordinates[i-1];
-                var next = segments[0].geometry.coordinates[i];
-                var check = step.maneuver.location.coordinates;
-                if (prev && next[0] === check[0] && next[1] === check[1]) {
-                    bearing = turfBearing({
-                        geometry: { type: 'Point', coordinates: prev }
-                    }, {
-                        geometry: { type: 'Point', coordinates: next }
-                    });
-                    bearing = Math.round(bearing/15)*15;
-                    bearing = bearing < 0 ? bearing + 360 : bearing;
-                    break;
-                }
+            last = step;
+            return true;
+        } else {
+            last = step;
+            return false;
+        }
+    });
+    steps.forEach(function(step, a) {
+        var bearing = null;
+
+        var nextstep = steps[a+1];
+        if (nextstep) for (var h = 0; h < segments[0].geometry.coordinates.length; h++) {
+            var next = segments[0].geometry.coordinates[h];
+            var check = nextstep.maneuver.location.coordinates;
+            if (next[0] === check[0] && next[1] === check[1]) break;
+        }
+
+        for (var i = 0; i < segments[0].geometry.coordinates.length; i++) {
+            var prev = segments[0].geometry.coordinates[i-1];
+            var next = segments[0].geometry.coordinates[i];
+            var check = step.maneuver.location.coordinates;
+            if (prev && next[0] === check[0] && next[1] === check[1]) {
+                bearing = turfBearing({
+                    geometry: { type: 'Point', coordinates: prev }
+                }, {
+                    geometry: { type: 'Point', coordinates: next }
+                });
+                bearing = Math.round(bearing/15)*15;
+                bearing = bearing < 0 ? bearing + 360 : bearing;
+                break;
             }
-            labels.push({
-              type: 'Feature',
-              geometry: step.maneuver.location,
-              properties: {
+        }
+
+        var nextline = {
+            type: 'Feature',
+            geometry: {
+                type: 'LineString',
+                coordinates: segments[0].geometry.coordinates.slice(i, h)
+            }
+        };
+        // Require that the offset be at most 25% from the next maneuver so as
+        // not to be confused with labelling the next maneuver point.
+        var offset = Math.min(options.offset, lineDistance(nextline, 'kilometers') * 0.25);
+        var geometry = along(nextline, offset, 'kilometers').geometry;
+
+        labels.push({
+            type: 'Feature',
+            geometry: geometry,
+            properties: {
                 type: 'label',
                 bearing: bearing,
                 modifier: /left/.test(step.maneuver.type) ? 'left' :
@@ -105,18 +137,18 @@ function v4(response) {
                     'other',
                 name: step.way_name.match(/^([^\(]+)/)[1].trim(),
                 waypoint: null
-              }
-            });
-        }
-        // Store previous step
-        last = step;
+            }
+        });
     });
 
     geojson.features = segments.concat(labels).concat(waypoints);
     return geojson;
 }
 
-function v5(response) {
+function v5(response, options) {
+    options = options || {};
+    options.offset = options.offset || 0;
+
     var geojson = { type:'FeatureCollection', features:[] };
     if (!response.routes.length) return geojson;
 
