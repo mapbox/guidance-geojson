@@ -209,12 +209,20 @@ function v5(response, options) {
                 }
 
                 if (name && geometry.coordinates.length) {
+                    // Require that the offset be at most 33% from the next maneuver so as
+                    // not to be confused with labelling the next maneuver point.
+                    var offset = Math.min(options.offset, lineDistance({
+                        type: 'LineString',
+                        geometry: geometry
+                    }, 'kilometers') * 0.33);
+                    var labelGeom = along({
+                        type: 'LineString',
+                        geometry: geometry
+                    }, offset, 'kilometers').geometry;
+
                     labels.push({
                         type: 'Feature',
-                        geometry: {
-                          type: 'Point',
-                          coordinates: geometry.coordinates[0]
-                        },
+                        geometry: labelGeom,
                         properties: {
                           type: 'label',
                           bearing: bearing,
