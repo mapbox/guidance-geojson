@@ -121,9 +121,9 @@ function v4(response, options) {
                 coordinates: segments[0].geometry.coordinates.slice(i, h)
             }
         };
-        // Require that the offset be at most 25% from the next maneuver so as
+        // Require that the offset be at most 33% from the next maneuver so as
         // not to be confused with labelling the next maneuver point.
-        var offset = Math.min(options.offset, lineDistance(nextline, 'kilometers') * 0.25);
+        var offset = Math.min(options.offset, lineDistance(nextline, 'kilometers') * 0.33);
         var geometry = along(nextline, offset, 'kilometers').geometry;
 
         labels.push({
