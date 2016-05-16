@@ -12,6 +12,8 @@ module.exports.styleRoute = styleRoute;
  *
  * @return {object} GeoJSON
  * @param {object} response - A Mapbox Directions response object.
+ * @param {object} options - Optional parameters.
+ * @param {object} options.offset - Distance in kilometers to offset labels from their maneuver points.
  */
 function guidance(response, options) {
     if (response.code) {
