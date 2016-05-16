@@ -9,6 +9,9 @@
     "turf-bearing": "1.0.x",
     "turf-line-distance": "1.0.x"
   },
+  "devDependencies": {
+    "turf-distance": "1.1.x"
+  },
   "bin": {
     "guidance-geojson": "bin/guidance-geojson.js"
   },
