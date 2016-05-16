@@ -1,3 +1,7 @@
+## v0.3.0
+
+- Adds `options.offset` for positioning labels offset from maneuver points.
+
 ## v0.2.1
 
 - Fixes for `styleRoute()` when working with layers with `ref` properties.
