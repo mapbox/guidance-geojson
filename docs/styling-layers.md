@@ -1,10 +1,10 @@
 # Introduction
 
-The `guidance-geojson` repository offers tools for creating route-specific map styling from [Mapbox Directions API](https://www.mapbox.com/api-documentation/#directions). In order to pass route information into the style dynamically for visualization, the style must contain route-specific styling layers. An example of a guidance-compatible style can be found in [docs/style.json](www.github.com/mapbox/guidance-geojson/blob/master/docs/style.json). If you'd like to create your own, here are steps to get you started.
+The `guidance-geojson` repository offers tools for creating route-specific map styling from [Mapbox Directions API](https://www.mapbox.com/api-documentation/#directions). To pass route information into the style dynamically for visualization, the style must contain route-specific styling layers. An example of a guidance-compatible style can be found in [docs/style.json](www.github.com/mapbox/guidance-geojson/blob/master/docs/style.json). If you'd like to create your own, here are steps to get you started.
 
 # Creating a Guidance Style
 
-Route layers allow you to customize the appearance of your Directions API response in a Mapbox GL JS map. They may contain elements such as a route line, maneuver markers, or maneuver names. To start, you'll need to create a sample route to upload into [Mapbox Studio](https://www.mapbox.com/mapbox-studio/). This sample route is for development purposes only – it gives you content to visulize so you can make design decisions, but will ultimately be overwritten dynamically with the route you specify.
+Route layers allow you to customize the appearance of your Directions API response in a Mapbox GL JS map. They may contain elements such as a route line, maneuver markers, or maneuver names. To start, you'll need to create a sample route to upload into [Mapbox Studio](https://www.mapbox.com/mapbox-studio/). This sample route is for development purposes only – it gives you content to visualize so you can make design decisions, but will ultimately be overwritten dynamically with the route you specify.
 
 ### Creating a Sample Route
 
