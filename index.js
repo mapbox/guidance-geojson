@@ -242,7 +242,7 @@ function v5(response, options) {
     // Generate segments
     response.routes[0].legs.forEach(function(leg) {
         segments = segments.concat(leg.steps.reduce(function(joined, step) {
-            if (!step.geometry) return joined;
+            if (!step.geometry || step.geometry.type !== 'LineString') return joined;
             var next = geom(step.geometry);
             joined.geometry.coordinates = joined.geometry.coordinates.concat(next.coordinates);
             return joined;
