@@ -1,6 +1,6 @@
 # Introduction
 
-The `guidance-geojson` repository offers tools for creating route-specific map styling from [Mapbox Directions API](https://www.mapbox.com/api-documentation/#directions). To pass route information into the style dynamically for visualization, the style must contain route-specific styling layers. An example of a guidance-compatible style can be found in [docs/style.json](www.github.com/mapbox/guidance-geojson/blob/master/docs/style.json). If you'd like to create your own, here are steps to get you started.
+The `guidance-geojson` repository offers tools for creating route-specific map styling from [Mapbox Directions API](https://www.mapbox.com/api-documentation/#directions). To pass route information into the style dynamically for visualization, the style must contain route-specific styling layers. An example of a guidance-compatible style can be found in `docs/style.json`. If you'd like to create your own, here are steps to get you started.
 
 # Creating a Guidance Style
 
@@ -8,7 +8,7 @@ Route layers allow you to customize the appearance of your Directions API respon
 
 ### Creating a Sample Route
 
-1\. Use the main module export in [index.js](www.github.com/mapbox/guidance-geojson/blob/master/index.js) to create a GeoJSON object from a sample directions API response:
+1\. Use the main module export in `index.js` to create a GeoJSON object from a sample directions API response:
 
 ```js
 var guidanceGeoJSON = require('guidance-geojson');
