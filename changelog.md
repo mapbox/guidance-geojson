@@ -1,3 +1,8 @@
+## v0.3.1
+
+- Adds fix for segment creation when final step is a point feature
+- Adds documentation for creating custom guidance-compatible style
+
 ## v0.3.0
 
 - Adds `options.offset` for positioning labels offset from maneuver points.
