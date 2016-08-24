@@ -313,7 +313,10 @@ function styleRoute(mapboxgl, map, route) {
     if (!style.metadata || !style.metadata.guidanceRoute) throw new Error('metadata.guidanceRoute not found. Did you run stylePrep() on your style object?');
     if (route.type !== 'FeatureCollection') route = guidance(route);
 
-    map.addSource('route-guidance', new mapboxgl.GeoJSONSource({ data: route }));
+    map.addSource('route-guidance', {
+      type: 'geojson',
+      data: route
+    });
 
     var toAdd = JSON.parse(JSON.stringify(style.metadata.guidanceRoute)).reverse();
     var byId = toAdd.reduce(function(memo, item) {

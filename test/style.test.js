@@ -86,9 +86,6 @@ tape('styleRoute-geojson', function(assert) {
         features: []
     };
     var mapboxgl = {};
-    mapboxgl.GeoJSONSource = function(options) {
-        assert.equal(options.data.type, 'FeatureCollection', 'geojson data provided to GeoJSONSource constructor');
-    };
     var map = {};
     map.getStyle = function() {
         return {
@@ -124,7 +121,7 @@ tape('styleRoute-geojson', function(assert) {
     };
     map.addSource = function(id, source) {
         assert.equal(id, 'route-guidance', 'addSource: adds source with id=route-guidance');
-        assert.equal(source instanceof mapboxgl.GeoJSONSource, true, 'addSource: adds GeoJSONSource');
+        assert.equal(source.data.type, 'FeatureCollection', 'geojson data provided to GeoJSONSource constructor');;
     };
 
     var added = [];
@@ -196,7 +193,7 @@ tape('styleRoute-route', function(assert) {
     };
     map.addSource = function(id, source) {
         assert.equal(id, 'route-guidance', 'addSource: adds source with id=route-guidance');
-        assert.equal(source instanceof mapboxgl.GeoJSONSource, true, 'addSource: adds GeoJSONSource');
+        assert.equal(source.data.type, 'FeatureCollection', 'geojson data provided to GeoJSONSource constructor');
     };
 
     var added = [];
