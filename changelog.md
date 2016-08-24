@@ -1,3 +1,7 @@
+## v0.3.2
+
+- Removes `GeoJSONSource` ([`mapbox-gl-js@0.22.0`](https://github.com/mapbox/mapbox-gl-js/blob/705e54e0447430a8a6982472f4eef204af2a23db/CHANGELOG.md#breaking-changes))
+
 ## v0.3.1
 
 - Adds fix for segment creation when final step is a point feature
